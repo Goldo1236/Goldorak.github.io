@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #2e2e2e; /* Modification de la couleur de fond */
+        }
+        #canvas {
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        var stars = []; 
+        var numStars = 300; 
+        var maxDistance = 100;
+        var mousePos = {x: 0, y: 0};
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        for(var i = 0; i < numStars; i++) {
+            var x = Math.random() * canvas.width;
+            var y = Math.random() * canvas.height;
+            var speedX = (Math.random() - 1.0) * 1.0;
+            var speedY = (Math.random() - 1.0) * 1.0;
+            stars.push({x: x, y: y, speedX: speedX, speedY: speedY});
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for(var i = 0; i < numStars; i++) {
+                var star = stars[i];
+                star.x += star.speedX;
+                star.y += star.speedY;
+
+                if(star.x < 0 || star.x > canvas.width) star.speedX = -star.speedX;
+                if(star.y < 0 || star.y > canvas.height) star.speedY = -star.speedY;
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = "#ffffff";
+                ctx.fill();
+
+                for(var j = i + 1; j < numStars; j++) {
+                    var otherStar = stars[j];
+                    var dx = otherStar.x - star.x;
+                    var dy = otherStar.y - star.y;
+                    var distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if(distance < maxDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(star.x, star.y);
+                        ctx.lineTo(otherStar.x, otherStar.y);
+                        ctx.strokeStyle = "rgba(255, 255, 255, " + (1 - distance / maxDistance) + ")";
+                        ctx.stroke();
+                    }
+                }
+
+                var dx = mousePos.x - star.x;
+                var dy = mousePos.y - star.y;
+                var distance = Math.sqrt(dx * dx + dy * dy);
+
+                if(distance < maxDistance) {
+                    ctx.beginPath();
+                    ctx.moveTo(star.x, star.y);
+                    ctx.lineTo(mousePos.x, mousePos.y);
+                    ctx.strokeStyle = "rgba(255, 255, 255, " + (1 - distance / maxDistance) + ")";
+                    ctx.stroke();
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        document.addEventListener('mousemove', function(e) {
+            mousePos.x = e.clientX;
+            mousePos.y = e.clientY;
+        });
+    </script>
+</body>
+</html>
