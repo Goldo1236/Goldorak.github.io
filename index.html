@@ -29,15 +29,12 @@
             border: 1px solid #888;
             width: 50%;
             height: 50%;
-            max-width: 100%; /* Ajustement de la largeur maximale */
-            max-height: 100%; /* Ajustement de la hauteur maximale */
-            overflow: hidden; /* Masque la barre de défilement */
             border-radius: 10px;
             box-shadow: 10px 10px 5px grey;
         }
         #videoPlayer {
             width: 100%;
-            height: 100%; /* Ajustement de la hauteur à 100% */
+            height: 80%;
         }
         #close {
             color: #aaa;
@@ -155,15 +152,33 @@
           };
         }
 
-        // Fermer la fenêtre modale lorsque l'utilisateur clique sur (x)
-        document.getElementById('close').onclick = function() {
-          var modalContent = document.getElementById('modal-content');
-          var videoPlayer = document.getElementById('videoPlayer');
-          if (videoPlayer) {
-            modalContent.removeChild(videoPlayer); // Supprime l'iframe
-          }
-          document.getElementById('modal').style.display = "none";
-        }
+        function createOnClickHandler(url) {
+  return function() {
+    var modalContent = document.getElementById('modal-content');
+    var oldVideoPlayer = document.getElementById('videoPlayer');
+    if (oldVideoPlayer) {
+      modalContent.removeChild(oldVideoPlayer); // Supprime l'ancienne iframe
+    }
+    var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
+    videoPlayer.id = 'videoPlayer';
+    videoPlayer.src = url;
+    videoPlayer.style.width = '100%';
+    videoPlayer.style.height = '80%';
+    videoPlayer.allowFullscreen = true;
+    modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
+    document.getElementById('modal').style.display = "block";
+  };
+}
+
+// Fermer la fenêtre modale lorsque l'utilisateur clique sur (x)
+document.getElementById('close').onclick = function() {
+  var modalContent = document.getElementById('modal-content');
+  var videoPlayer = document.getElementById('videoPlayer');
+  if (videoPlayer) {
+    modalContent.removeChild(videoPlayer); // Supprime l'iframe
+  }
+  document.getElementById('modal').style.display = "none";
+}
     </script>
 </body>
 </html>
