@@ -24,20 +24,19 @@
         }
         #modal-content {
             background-color: #000000;
-            margin: 25% auto; /* Modification de cette ligne */
+            margin: 15% auto;
             padding: 10px;
             border: 1px solid #888;
-            width: 35%; /* Modification de cette ligne */
-            height: fit-content; /* Modification de cette ligne */
+            width: 50%;
+            height: auto; /* Modification de cette ligne */
+            max-height: 90vh; /* Ajout de cette ligne */
             border-radius: 10px;
             box-shadow: 10px 10px 5px grey;
-            overflow-y: auto; /* Ajout de cette ligne */
+            overflow: hidden; /* Ajout de cette ligne */
         }
         #videoPlayer {
-            width: 100%; /* Modification de cette ligne */
-            height: 100%; /* Modification de cette ligne */
-            display: block; /* Ajout de cette ligne */
-            margin: auto; /* Ajout de cette ligne */
+            width: 100%;
+            height: 80%;
         }
         #close {
             color: #aaa;
@@ -166,7 +165,7 @@
     videoPlayer.id = 'videoPlayer';
     videoPlayer.src = url;
     videoPlayer.style.width = '100%';
-    videoPlayer.style.height = '100%';
+    videoPlayer.style.height = '80%';
     videoPlayer.allowFullscreen = true;
     modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
     document.getElementById('modal').style.display = "block";
