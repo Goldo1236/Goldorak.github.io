@@ -54,7 +54,7 @@
 </head>
 <body>
     <canvas id="canvas"></canvas>
-    <input type="text" id="searchBar" placeholder="Rechercher une vidéo..."> <!-- Ajout de cette ligne -->
+    <input type="text" id="searchBar" placeholder="Rechercher une vidéo...">
     <div id="videoList"></div>
     <div id="modal">
         <div id="modal-content">
@@ -147,6 +147,7 @@
               videoElement.textContent = video.title;
               videoElement.style.cursor = 'pointer';
               videoElement.onclick = createOnClickHandler(video.url);
+              videoElement.setAttribute('data-genre', video.genre); // Ajout de cette ligne
 
               var container = document.getElementById('videoList');
               container.appendChild(videoElement);
