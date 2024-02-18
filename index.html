@@ -138,17 +138,22 @@
             // Générer la liste de vidéos
             for (var i = 0; i < videos.length; i++) {
               var video = videos[i];
-              var videoElement = document.createElement('div'); // Change 'p' to 'div'
+              var videoWrapper = document.createElement('div'); // Create a wrapper div
+
+              var videoElement = document.createElement('div');
               videoElement.textContent = video.title;
               videoElement.style.cursor = 'pointer';
-              videoElement.style.display = 'inline-block'; // Add this line
+              videoElement.style.display = 'inline-block';
+              videoElement.style.marginBottom = '5px'; // Add a small space below each video title
               videoElement.onclick = createOnClickHandler(video.url);
 
-              var container = document.getElementById('videoList');
-              container.appendChild(videoElement);
+              var breakElement = document.createElement('br');
 
-              var breakElement = document.createElement('br'); // Create a line break element
-              container.appendChild(breakElement); // Add the line break after the video element
+              videoWrapper.appendChild(videoElement); // Add the video element to the wrapper
+              videoWrapper.appendChild(breakElement); // Add the line break to the wrapper
+
+              var container = document.getElementById('videoList');
+              container.appendChild(videoWrapper); // Add the wrapper to the container
             }
           });
 
@@ -192,15 +197,15 @@
             var searchQuery = this.value.toLowerCase(); // Convertir la requête en minuscules pour une recherche insensible à la casse
 
             var videosContainer = document.getElementById('videoList');
-            var videos = videosContainer.getElementsByTagName('div'); // Change 'p' to 'div'
+            var videoWrappers = videosContainer.getElementsByTagName('div');
 
-            for (var i = 0; i < videos.length; i++) {
-                var videoTitle = videos[i].textContent.toLowerCase(); // Le titre de la vidéo en minuscules
+            for (var i = 0; i < videoWrappers.length; i++) {
+                var videoTitle = videoWrappers[i].getElementsByTagName('div')[0].textContent.toLowerCase(); // Le titre de la vidéo en minuscules
 
                 if (videoTitle.includes(searchQuery)) {
-                    videos[i].style.display = 'block'; // Afficher la vidéo si elle correspond à la recherche
+                    videoWrappers[i].style.display = 'block'; // Afficher la vidéo si elle correspond à la recherche
                 } else {
-                    videos[i].style.display = 'none'; // Masquer la vidéo si elle ne correspond pas à la recherche
+                    videoWrappers[i].style.display = 'none'; // Masquer la vidéo si elle ne correspond pas à la recherche
                 }
             }
         });
