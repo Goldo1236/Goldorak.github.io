@@ -1,5 +1,5 @@
 [
-  {"title": "Titre de la vidéo 1", "url": "https://drive.google.com/file/d/1mxzpYuELuHwx7dZOQ1d230eF1zugHgQq/preview", "genre": "horreur"},
-  {"title": "Titre de la vidéo 2", "url": "https://drive.google.com/file/d/1mxzpYuELuHwx7dZOQ1d230eF1zugHgQq/preview", "genre": "comédie"},
-  {"title": "Titre de la vidéo 3", "url": "https://drive.google.com/file/d/1mxzpYuELuHwx7dZOQ1d230eF1zugHgQq/preview", "genre": "action"}
+  {"title": "Vidéo avec Foupouda", "url": "https://drive.google.com/file/d/1mxzpYuELuHwx7dZOQ1d230eF1zugHgQq/preview", "genre": "horreur"},
+  {"title": "Vidéo avec moi même", "url": "https://drive.google.com/file/d/1mxzpYuELuHwx7dZOQ1d230eF1zugHgQq/preview", "genre": "comédie"},
+  {"title": "Ehh rien..", "url": "https://drive.google.com/file/d/1mxzpYuELuHwx7dZOQ1d230eF1zugHgQq/preview", "genre": "action"}
 ]
