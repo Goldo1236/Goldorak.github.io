@@ -45,16 +45,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-        /* Style pour les vidéos */
-        #videoList p {
-            display: block;
-            margin: 5px 0;
-            cursor: pointer;
-            width: auto; /* Ajustement automatique de la largeur en fonction du texte */
-            overflow: hidden; /* Empêche le débordement du texte */
-            white-space: nowrap; /* Empêche le texte de se diviser sur plusieurs lignes */
-            text-overflow: ellipsis; /* Affiche "..." si le texte est trop long pour être entièrement affiché */
-        }
     </style>
 </head>
 <body>
@@ -148,9 +138,10 @@
             // Générer la liste de vidéos
             for (var i = 0; i < videos.length; i++) {
               var video = videos[i];
-              var videoElement = document.createElement('p');
+              var videoElement = document.createElement('div'); // Change 'p' to 'div'
               videoElement.textContent = video.title;
               videoElement.style.cursor = 'pointer';
+              videoElement.style.display = 'inline-block'; // Add this line
               videoElement.onclick = createOnClickHandler(video.url);
 
               var container = document.getElementById('videoList');
@@ -198,7 +189,7 @@
             var searchQuery = this.value.toLowerCase(); // Convertir la requête en minuscules pour une recherche insensible à la casse
 
             var videosContainer = document.getElementById('videoList');
-            var videos = videosContainer.getElementsByTagName('p');
+            var videos = videosContainer.getElementsByTagName('div'); // Change 'p' to 'div'
 
             for (var i = 0; i < videos.length; i++) {
                 var videoTitle = videos[i].textContent.toLowerCase(); // Le titre de la vidéo en minuscules
