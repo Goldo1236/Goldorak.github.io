@@ -195,10 +195,7 @@
             for (var i = 0; i < videoWrappers.length; i++) {
                 var videoTitle = videoWrappers[i].getElementsByTagName('div')[0].textContent.toLowerCase(); // Le titre de la vidéo en minuscules
 
-                // Utilisation d'une expression régulière pour une correspondance plus flexible
-                var regex = new RegExp(searchQuery, 'i');
-
-                if (regex.test(videoTitle)) {
+                if (videoTitle.includes(searchQuery)) {
                     videoWrappers[i].style.display = 'block'; // Afficher la vidéo si elle correspond à la recherche
                 } else {
                     videoWrappers[i].style.display = 'none'; // Masquer la vidéo si elle ne correspond pas à la recherche
