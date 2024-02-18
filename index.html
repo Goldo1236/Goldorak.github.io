@@ -154,8 +154,10 @@
 
         // Fermer la fenêtre modale lorsque l'utilisateur clique sur (x)
         document.getElementById('close').onclick = function() {
-          document.getElementById('modal').style.display = "none";
-        }
+  var videoPlayer = document.getElementById('videoPlayer');
+  videoPlayer.src = ''; // Arrête la vidéo
+  document.getElementById('modal').style.display = "none";
+}
     </script>
 </body>
 </html>
