@@ -159,13 +159,6 @@
 
         function createOnClickHandler(url) {
           return function() {
-            document.getElementById('videoPlayer').src = url;
-            document.getElementById('modal').style.display = "block";
-          };
-        }
-
-        function createOnClickHandler(url) {
-          return function() {
             var modalContent = document.getElementById('modal-content');
             var oldVideoPlayer = document.getElementById('videoPlayer');
             if (oldVideoPlayer) {
@@ -202,7 +195,10 @@
             for (var i = 0; i < videoWrappers.length; i++) {
                 var videoTitle = videoWrappers[i].getElementsByTagName('div')[0].textContent.toLowerCase(); // Le titre de la vidéo en minuscules
 
-                if (videoTitle.includes(searchQuery)) {
+                // Utilisation d'une expression régulière pour une correspondance plus flexible
+                var regex = new RegExp(searchQuery, 'i');
+
+                if (regex.test(videoTitle)) {
                     videoWrappers[i].style.display = 'block'; // Afficher la vidéo si elle correspond à la recherche
                 } else {
                     videoWrappers[i].style.display = 'none'; // Masquer la vidéo si elle ne correspond pas à la recherche
