@@ -152,11 +152,26 @@
           };
         }
 
-        // Fermer la fenêtre modale lorsque l'utilisateur clique sur (x)
-        document.getElementById('close').onclick = function() {
+// Fermer la fenêtre modale lorsque l'utilisateur clique sur (x)
+document.getElementById('close').onclick = function() {
+  var modalContent = document.getElementById('modal-content');
   var videoPlayer = document.getElementById('videoPlayer');
-  videoPlayer.src = ''; // Arrête la vidéo
+  modalContent.removeChild(videoPlayer); // Supprime l'iframe
   document.getElementById('modal').style.display = "none";
+}
+
+function createOnClickHandler(url) {
+  return function() {
+    var modalContent = document.getElementById('modal-content');
+    var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
+    videoPlayer.id = 'videoPlayer';
+    videoPlayer.src = url;
+    videoPlayer.style.width = '100%';
+    videoPlayer.style.height = '80%';
+    videoPlayer.allowFullscreen = true;
+    modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
+    document.getElementById('modal').style.display = "block";
+  };
 }
     </script>
 </body>
