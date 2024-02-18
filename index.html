@@ -49,6 +49,7 @@
 </head>
 <body>
     <canvas id="canvas"></canvas>
+    <input type="text" id="searchInput" placeholder="Rechercher..." style="position: fixed; top: 20px; right: 20px;">
     <div id="videoList"></div>
     <div id="modal">
         <div id="modal-content">
@@ -155,32 +156,50 @@
         }
 
         function createOnClickHandler(url) {
-  return function() {
-    var modalContent = document.getElementById('modal-content');
-    var oldVideoPlayer = document.getElementById('videoPlayer');
-    if (oldVideoPlayer) {
-      modalContent.removeChild(oldVideoPlayer); // Supprime l'ancienne iframe
-    }
-    var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
-    videoPlayer.id = 'videoPlayer';
-    videoPlayer.src = url;
-    videoPlayer.style.width = '100%';
-    videoPlayer.style.height = '80%';
-    videoPlayer.allowFullscreen = true;
-    modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
-    document.getElementById('modal').style.display = "block";
-  };
-}
+          return function() {
+            var modalContent = document.getElementById('modal-content');
+            var oldVideoPlayer = document.getElementById('videoPlayer');
+            if (oldVideoPlayer) {
+              modalContent.removeChild(oldVideoPlayer); // Supprime l'ancienne iframe
+            }
+            var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
+            videoPlayer.id = 'videoPlayer';
+            videoPlayer.src = url;
+            videoPlayer.style.width = '100%';
+            videoPlayer.style.height = '80%';
+            videoPlayer.allowFullscreen = true;
+            modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
+            document.getElementById('modal').style.display = "block";
+          };
+        }
 
-// Fermer la fenêtre modale lorsque l'utilisateur clique sur (x)
-document.getElementById('close').onclick = function() {
-  var modalContent = document.getElementById('modal-content');
-  var videoPlayer = document.getElementById('videoPlayer');
-  if (videoPlayer) {
-    modalContent.removeChild(videoPlayer); // Supprime l'iframe
-  }
-  document.getElementById('modal').style.display = "none";
-}
+        // Fermer la fenêtre modale lorsque l'utilisateur clique sur (x)
+        document.getElementById('close').onclick = function() {
+          var modalContent = document.getElementById('modal-content');
+          var videoPlayer = document.getElementById('videoPlayer');
+          if (videoPlayer) {
+            modalContent.removeChild(videoPlayer); // Supprime l'iframe
+          }
+          document.getElementById('modal').style.display = "none";
+        }
+
+        // Barre de recherche pour filtrer les vidéos
+        document.getElementById('searchInput').addEventListener('input', function() {
+            var searchQuery = this.value.toLowerCase(); // Convertir la requête en minuscules pour une recherche insensible à la casse
+
+            var videosContainer = document.getElementById('videoList');
+            var videos = videosContainer.getElementsByTagName('p');
+
+            for (var i = 0; i < videos.length; i++) {
+                var videoTitle = videos[i].textContent.toLowerCase(); // Le titre de la vidéo en minuscules
+
+                if (videoTitle.includes(searchQuery)) {
+                    videos[i].style.display = 'block'; // Afficher la vidéo si elle correspond à la recherche
+                } else {
+                    videos[i].style.display = 'none'; // Masquer la vidéo si elle ne correspond pas à la recherche
+                }
+            }
+        });
     </script>
 </body>
 </html>
