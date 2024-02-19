@@ -8,15 +8,19 @@
             font-family: Arial, sans-serif;
             background-color: #2e2e2e;
             color: #fff;
+            user-select: none; /* Désactiver la sélection de texte */
         }
         #header {
             text-align: center;
             padding: 20px 0;
         }
-        #videoList {
+        #videoContainer {
             margin: 20px auto;
             max-width: 600px;
             padding: 0 20px;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
+            overflow: hidden;
         }
         .videoContainer {
             margin-bottom: 10px;
@@ -39,6 +43,16 @@
             background-color: rgba(255, 255, 255, 0.1);
             color: #fff;
             text-align: center; /* Centrer le texte */
+        }
+        #pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .paginationBtn {
+            display: inline-block;
+            margin: 0 5px;
+            cursor: pointer;
+            color: #fff;
         }
         #modal {
             display: none;
@@ -83,16 +97,6 @@
             pointer-events: none; /* Empêche le canvas d'interférer avec les interactions de la souris sur les autres éléments */
             z-index: -1; /* Assure que le canvas est positionné en arrière-plan */
         }
-        #pagination {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .paginationBtn {
-            display: inline-block;
-            margin: 0 5px;
-            cursor: pointer;
-            color: #fff;
-        }
     </style>
 </head>
 <body>
@@ -102,10 +106,12 @@
         <h1>Vidéothèque</h1>
     </div>
     <input type="text" id="searchInput" placeholder="Rechercher...">
-    <div id="videoList"></div>
-    <div id="pagination">
-        <span id="prevPage" class="paginationBtn">&lt; Précédent</span>
-        <span id="nextPage" class="paginationBtn">Suivant &gt;</span>
+    <div id="videoContainer">
+        <div id="videoList"></div>
+        <div id="pagination">
+            <span id="prevPage" class="paginationBtn">&lt; Précédent</span>
+            <span id="nextPage" class="paginationBtn">Suivant &gt;</span>
+        </div>
     </div>
     <div id="modal">
         <div id="modal-content">
@@ -115,8 +121,8 @@
     </div>
 
     <script>
-        var videosPerPage = 20;
-        var currentPage = 1;
+        var videosPerPage = 14; // Nombre de vidéos par page
+        var currentPage = 1; // Page actuelle
         var videosData = []; // Contiendra toutes les vidéos
         var filteredVideos = []; // Contiendra les vidéos filtrées
 
