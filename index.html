@@ -138,8 +138,7 @@
           .then(response => response.json())
           .then(videos => {
             // Générer la liste de vidéos
-            for (var i = 0; i < videos.length; i++) {
-              var video = videos[i];
+            videos.forEach(function(video) {
               var videoWrapper = document.createElement('div'); // Create a wrapper div
 
               var videoElement = document.createElement('div');
@@ -156,7 +155,7 @@
 
               var container = document.getElementById('videoList');
               container.appendChild(videoWrapper); // Add the wrapper to the container
-            }
+            });
           });
 
         function createOnClickHandler(url) {
@@ -191,18 +190,17 @@
         document.getElementById('searchInput').addEventListener('input', function() {
             var searchQuery = this.value.toLowerCase(); // Convertir la requête en minuscules pour une recherche insensible à la casse
 
-            var videosContainer = document.getElementById('videoList');
-            var videoWrappers = videosContainer.getElementsByTagName('div');
+            var videoContainers = document.querySelectorAll('#videoList > div');
 
-            for (var i = 0; i < videoWrappers.length; i++) {
-                var videoTitle = videoWrappers[i].getElementsByTagName('div')[0].textContent.toLowerCase(); // Le titre de la vidéo en minuscules
+            videoContainers.forEach(function(videoContainer) {
+                var videoTitle = videoContainer.querySelector('div').textContent.toLowerCase(); // Le titre de la vidéo en minuscules
 
                 if (videoTitle.includes(searchQuery)) {
-                    videoWrappers[i].style.display = 'block'; // Afficher la vidéo si elle correspond à la recherche
+                    videoContainer.style.display = 'block'; // Afficher la vidéo si elle correspond à la recherche
                 } else {
-                    videoWrappers[i].style.display = 'none'; // Masquer la vidéo si elle ne correspond pas à la recherche
+                    videoContainer.style.display = 'none'; // Masquer la vidéo si elle ne correspond pas à la recherche
                 }
-            }
+            });
         });
     </script>
 </body>
