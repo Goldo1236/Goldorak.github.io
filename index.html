@@ -83,6 +83,16 @@
             pointer-events: none; /* Empêche le canvas d'interférer avec les interactions de la souris sur les autres éléments */
             z-index: -1; /* Assure que le canvas est positionné en arrière-plan */
         }
+        #pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .paginationBtn {
+            display: inline-block;
+            margin: 0 5px;
+            cursor: pointer;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +103,10 @@
     </div>
     <input type="text" id="searchInput" placeholder="Rechercher...">
     <div id="videoList"></div>
+    <div id="pagination">
+        <span id="prevPage" class="paginationBtn">&lt; Précédent</span>
+        <span id="nextPage" class="paginationBtn">Suivant &gt;</span>
+    </div>
     <div id="modal">
         <div id="modal-content">
             <span id="close">×</span>
@@ -101,6 +115,52 @@
     </div>
 
     <script>
+        var videosPerPage = 20;
+        var currentPage = 1;
+        var videosData = []; // Contiendra toutes les vidéos
+        var filteredVideos = []; // Contiendra les vidéos filtrées
+
+        // Fonction pour afficher les vidéos sur une page donnée
+        function displayVideos(page) {
+            var startIndex = (page - 1) * videosPerPage;
+            var endIndex = startIndex + videosPerPage;
+            var videosToDisplay = filteredVideos.slice(startIndex, endIndex);
+
+            var container = document.getElementById('videoList');
+            container.innerHTML = ''; // Efface le contenu précédent
+
+            videosToDisplay.forEach(function(video) {
+                var videoWrapper = document.createElement('div'); // Create a wrapper div
+                videoWrapper.className = 'videoContainer'; // Add class for styling
+
+                var videoElement = document.createElement('div');
+                videoElement.textContent = video.title;
+                videoElement.onclick = createOnClickHandler(video.url);
+
+                videoWrapper.appendChild(videoElement); // Add the video element to the wrapper
+                container.appendChild(videoWrapper); // Add the wrapper to the container
+            });
+        }
+
+        // Fonction pour afficher la page suivante
+        function nextPage() {
+            if (currentPage < Math.ceil(filteredVideos.length / videosPerPage)) {
+                currentPage++;
+                displayVideos(currentPage);
+            }
+        }
+
+        // Fonction pour afficher la page précédente
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayVideos(currentPage);
+            }
+        }
+
+        document.getElementById('nextPage').addEventListener('click', nextPage);
+        document.getElementById('prevPage').addEventListener('click', prevPage);
+
         var canvas = document.getElementById('canvas');
         var ctx = canvas.getContext('2d');
 
@@ -178,19 +238,9 @@
         fetch('videos.json')
           .then(response => response.json())
           .then(videos => {
-            // Générer la liste de vidéos
-            videos.forEach(function(video) {
-              var videoWrapper = document.createElement('div'); // Create a wrapper div
-              videoWrapper.className = 'videoContainer'; // Add class for styling
-
-              var videoElement = document.createElement('div');
-              videoElement.textContent = video.title;
-              videoElement.onclick = createOnClickHandler(video.url);
-
-              var container = document.getElementById('videoList');
-              videoWrapper.appendChild(videoElement); // Add the video element to the wrapper
-              container.appendChild(videoWrapper); // Add the wrapper to the container
-            });
+            videosData = videos;
+            filteredVideos = videosData; // Initialise les vidéos filtrées avec toutes les vidéos
+            displayVideos(currentPage);
           });
 
         function createOnClickHandler(url) {
@@ -223,17 +273,12 @@
         document.getElementById('searchInput').addEventListener('input', function() {
             var searchQuery = this.value.toLowerCase(); // Convertir la requête en minuscules pour une recherche insensible à la casse
 
-            var videoContainers = document.querySelectorAll('.videoContainer');
-
-            videoContainers.forEach(function(videoContainer) {
-                var videoTitle = videoContainer.querySelector('div').textContent.toLowerCase(); // Le titre de la vidéo en minuscules
-
-                if (videoTitle.includes(searchQuery)) {
-                    videoContainer.style.display = 'block'; // Afficher la vidéo si elle correspond à la recherche
-                } else {
-                    videoContainer.style.display = 'none'; // Masquer la vidéo si elle ne correspond pas à la recherche
-                }
+            filteredVideos = videosData.filter(function(video) {
+                return video.title.toLowerCase().includes(searchQuery);
             });
+
+            currentPage = 1; // Réinitialise la page actuelle à 1 après la recherche
+            displayVideos(currentPage);
         });
     </script>
 </body>
