@@ -8,6 +8,7 @@
             font-family: Arial, sans-serif;
             background-color: #2e2e2e;
             color: #fff;
+            user-select: none; /* Désactiver la sélection de texte */
         }
         #header {
             text-align: center;
@@ -115,8 +116,8 @@
     </div>
 
     <script>
-        var videosPerPage = 20;
-        var currentPage = 1;
+        var videosPerPage = 14; // Nombre de vidéos par page
+        var currentPage = 1; // Page actuelle
         var videosData = []; // Contiendra toutes les vidéos
         var filteredVideos = []; // Contiendra les vidéos filtrées
 
