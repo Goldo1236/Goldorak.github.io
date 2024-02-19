@@ -6,6 +6,8 @@
             margin: 0;
             overflow: hidden;
             background: #2e2e2e; /* Modification de la couleur de fond */
+            color: #fff; /* Ajout de la couleur de texte */
+            font-family: Arial, sans-serif; /* Ajout de la police de caractères */
         }
         #canvas {
             position: fixed;
@@ -156,13 +158,6 @@
               container.appendChild(videoWrapper); // Add the wrapper to the container
             }
           });
-
-        function createOnClickHandler(url) {
-          return function() {
-            document.getElementById('videoPlayer').src = url;
-            document.getElementById('modal').style.display = "block";
-          };
-        }
 
         function createOnClickHandler(url) {
           return function() {
