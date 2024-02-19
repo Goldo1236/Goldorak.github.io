@@ -270,11 +270,14 @@
                 var videoPlayer = document.getElementById('videoPlayer');
                 
                 if (!videoPlayer) {
+                    var modalContent = document.getElementById('modal-content');
+                    modalContent.innerHTML = ''; // Efface le contenu précédent
+                    
                     videoPlayer = document.createElement('iframe');
                     videoPlayer.id = 'videoPlayer';
                     videoPlayer.src = url;
                     videoPlayer.allowFullscreen = true;
-                    document.getElementById('modal-content').appendChild(videoPlayer);
+                    modalContent.appendChild(videoPlayer);
                 } else {
                     videoPlayer.src = url;
                 }
