@@ -136,13 +136,14 @@
           .then(response => response.json())
           .then(videos => {
             // Générer la liste de vidéos
-            videos.forEach(video => {
+            for (var i = 0; i < videos.length; i++) {
+              var video = videos[i];
               var videoWrapper = document.createElement('div'); // Create a wrapper div
 
               var videoElement = document.createElement('div');
               videoElement.textContent = video.title;
               videoElement.style.cursor = 'pointer';
-              videoElement.style.display = 'none'; // Hide initially
+              videoElement.style.display = 'inline-block';
               videoElement.style.marginBottom = '5px'; // Add a small space below each video title
               videoElement.onclick = createOnClickHandler(video.url);
 
@@ -153,11 +154,15 @@
 
               var container = document.getElementById('videoList');
               container.appendChild(videoWrapper); // Add the wrapper to the container
-            });
-
-            // Afficher toutes les vidéos initialement
-            showAllVideos();
+            }
           });
+
+        function createOnClickHandler(url) {
+          return function() {
+            document.getElementById('videoPlayer').src = url;
+            document.getElementById('modal').style.display = "block";
+          };
+        }
 
         function createOnClickHandler(url) {
           return function() {
@@ -204,16 +209,6 @@
                 }
             }
         });
-
-        // Fonction pour afficher toutes les vidéos
-        function showAllVideos() {
-          var videosContainer = document.getElementById('videoList');
-          var videoWrappers = videosContainer.getElementsByTagName('div');
-
-          for (var i = 0; i < videoWrappers.length; i++) {
-            videoWrappers[i].style.display = 'block';
-          }
-        }
     </script>
 </body>
 </html>
