@@ -8,15 +8,18 @@
             font-family: Arial, sans-serif;
             background-color: #2e2e2e;
             color: #fff;
+            user-select: none; /* Désactiver la sélection de texte */
         }
         #header {
             text-align: center;
             padding: 20px 0;
+            user-select: none; /* Désactiver la sélection de texte */
         }
         #videoList {
             margin: 20px auto;
             max-width: 600px;
             padding: 0 20px;
+            user-select: none; /* Désactiver la sélection de texte */
         }
         .videoContainer {
             margin-bottom: 10px;
@@ -40,58 +43,21 @@
             color: #fff;
             text-align: center; /* Centrer le texte */
         }
-        #modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-        #modal-content {
-            background-color: #000000;
-            margin: 15% auto;
-            padding: 10px;
-            border: 1px solid #888;
-            width: 50%;
-            height: auto;
-            max-height: 90vh;
-            border-radius: 10px;
-            box-shadow: 10px 10px 5px grey;
-            overflow: hidden;
-        }
-        #videoPlayer {
-            width: 100%;
-            height: 80%;
-        }
-        #close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        #canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Empêche le canvas d'interférer avec les interactions de la souris sur les autres éléments */
-            z-index: -1; /* Assure que le canvas est positionné en arrière-plan */
-        }
         #pagination {
             text-align: center;
             margin-top: 20px;
+            user-select: none; /* Désactiver la sélection de texte */
         }
         .paginationBtn {
             display: inline-block;
             margin: 0 5px;
             cursor: pointer;
             color: #fff;
+        }
+        .pageFrame {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            padding: 10px;
         }
     </style>
 </head>
@@ -102,8 +68,8 @@
         <h1>Vidéothèque</h1>
     </div>
     <input type="text" id="searchInput" placeholder="Rechercher...">
-    <div id="videoList"></div>
-    <div id="pagination">
+    <div id="videoList" class="pageFrame"></div>
+    <div id="pagination" class="pageFrame">
         <span id="prevPage" class="paginationBtn">&lt; Précédent</span>
         <span id="nextPage" class="paginationBtn">Suivant &gt;</span>
     </div>
@@ -115,7 +81,7 @@
     </div>
 
     <script>
-        var videosPerPage = 20;
+        var videosPerPage = 14;
         var currentPage = 1;
         var videosData = []; // Contiendra toutes les vidéos
         var filteredVideos = []; // Contiendra les vidéos filtrées
