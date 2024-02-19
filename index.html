@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidéothèque</title>
     <style>
         body {
             margin: 0;
@@ -263,30 +266,33 @@
 
         function createOnClickHandler(url) {
             return function() {
-                var modalContent = document.getElementById('modal-content');
-                var oldVideoPlayer = document.getElementById('videoPlayer');
-                if (oldVideoPlayer) {
-                    modalContent.removeChild(oldVideoPlayer); // Supprime l'ancienne iframe
+                var modal = document.getElementById('modal');
+                var videoPlayer = document.getElementById('videoPlayer');
+                
+                if (!videoPlayer) {
+                    videoPlayer = document.createElement('iframe');
+                    videoPlayer.id = 'videoPlayer';
+                    videoPlayer.src = url;
+                    videoPlayer.allowFullscreen = true;
+                    document.getElementById('modal-content').appendChild(videoPlayer);
+                } else {
+                    videoPlayer.src = url;
                 }
-                var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
-                videoPlayer.id = 'videoPlayer';
-                videoPlayer.src = url;
-                videoPlayer.allowFullscreen = true;
-                modalContent.innerHTML = ''; // Efface le contenu précédent
-                modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
-                document.getElementById('modal').style.display = "block";
+                
+                modal.style.display = 'block';
             };
         }
 
-        // Fermer la fenêtre modale lorsque l'utilisateur clique sur (x)
-        document.getElementById('close').onclick = function() {
-            var modalContent = document.getElementById('modal-content');
+        document.getElementById('close').addEventListener('click', function() {
+            var modal = document.getElementById('modal');
             var videoPlayer = document.getElementById('videoPlayer');
+            
             if (videoPlayer) {
-                modalContent.removeChild(videoPlayer); // Supprime l'iframe
+                videoPlayer.src = ''; // Arrête la vidéo
             }
-            document.getElementById('modal').style.display = "none";
-        }
+            
+            modal.style.display = 'none';
+        });
 
         // Barre de recherche pour filtrer les vidéos
         document.getElementById('searchInput').addEventListener('input', function() {
