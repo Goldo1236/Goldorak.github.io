@@ -29,9 +29,21 @@
             border-radius: 5px;
             cursor: pointer;
             text-align: center; /* Centrer le texte */
+            position: relative; /* Ajout d'une position relative */
         }
         .videoContainer:hover {
             background-color: rgba(255, 255, 255, 0.1);
+        }
+        .videoTitle {
+            position: relative;
+            z-index: 1;
+        }
+        .videoOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
         #searchInput {
             margin: 20px auto;
@@ -140,10 +152,16 @@
                 videoWrapper.className = 'videoContainer'; // Add class for styling
 
                 var videoElement = document.createElement('div');
+                videoElement.className = 'videoTitle'; // Add class for styling
                 videoElement.textContent = video.title;
                 videoElement.onclick = createOnClickHandler(video.url);
 
+                var overlay = document.createElement('div'); // Create an overlay for clickable area
+                overlay.className = 'videoOverlay'; // Add class for styling
+                overlay.onclick = createOnClickHandler(video.url);
+
                 videoWrapper.appendChild(videoElement); // Add the video element to the wrapper
+                videoWrapper.appendChild(overlay); // Add the overlay to the wrapper
                 container.appendChild(videoWrapper); // Add the wrapper to the container
             });
         }
