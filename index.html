@@ -4,14 +4,39 @@
     <style>
         body {
             margin: 0;
-            overflow: hidden;
-            background: #2e2e2e; /* Modification de la couleur de fond */
-            color: #fff; /* Ajout de la couleur de texte */
-            font-family: Arial, sans-serif; /* Ajout de la police de caractères */
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2e2e2e;
+            color: #fff;
         }
-        #canvas {
-            position: fixed;
-            z-index: -1;
+        #header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        #videoList {
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+        .videoContainer {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .videoContainer:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        #searchInput {
+            margin: 20px auto;
+            display: block;
+            padding: 10px;
+            width: 80%;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
         }
         #modal {
             display: none;
@@ -30,11 +55,11 @@
             padding: 10px;
             border: 1px solid #888;
             width: 50%;
-            height: auto; /* Modification de cette ligne */
-            max-height: 90vh; /* Ajout de cette ligne */
+            height: auto;
+            max-height: 90vh;
             border-radius: 10px;
             box-shadow: 10px 10px 5px grey;
-            overflow: hidden; /* Ajout de cette ligne */
+            overflow: hidden;
         }
         #videoPlayer {
             width: 100%;
@@ -50,8 +75,11 @@
     </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    <input type="text" id="searchInput" placeholder="Rechercher..." style="position: fixed; top: 20px; right: 20px;">
+    <div id="header">
+        <!-- Mettez ici votre image -->
+        <h1>Vidéothèque</h1>
+    </div>
+    <input type="text" id="searchInput" placeholder="Rechercher...">
     <div id="videoList"></div>
     <div id="modal">
         <div id="modal-content">
@@ -59,8 +87,9 @@
             <iframe id="videoPlayer" allowfullscreen></iframe>
         </div>
     </div>
+
     <script>
-        var canvas = document.getElementById('canvas');
+        var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
 
         var stars = []; 
@@ -70,6 +99,7 @@
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        document.body.appendChild(canvas);
 
         for(var i = 0; i < numStars; i++) {
             var x = Math.random() * canvas.width;
@@ -140,20 +170,14 @@
             // Générer la liste de vidéos
             videos.forEach(function(video) {
               var videoWrapper = document.createElement('div'); // Create a wrapper div
+              videoWrapper.className = 'videoContainer'; // Add class for styling
 
               var videoElement = document.createElement('div');
               videoElement.textContent = video.title;
-              videoElement.style.cursor = 'pointer';
-              videoElement.style.display = 'inline-block';
-              videoElement.style.marginBottom = '5px'; // Add a small space below each video title
               videoElement.onclick = createOnClickHandler(video.url);
 
-              var breakElement = document.createElement('br');
-
-              videoWrapper.appendChild(videoElement); // Add the video element to the wrapper
-              videoWrapper.appendChild(breakElement); // Add the line break to the wrapper
-
               var container = document.getElementById('videoList');
+              videoWrapper.appendChild(videoElement); // Add the video element to the wrapper
               container.appendChild(videoWrapper); // Add the wrapper to the container
             });
           });
@@ -168,8 +192,6 @@
             var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
             videoPlayer.id = 'videoPlayer';
             videoPlayer.src = url;
-            videoPlayer.style.width = '100%';
-            videoPlayer.style.height = '80%';
             videoPlayer.allowFullscreen = true;
             modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
             document.getElementById('modal').style.display = "block";
@@ -190,7 +212,7 @@
         document.getElementById('searchInput').addEventListener('input', function() {
             var searchQuery = this.value.toLowerCase(); // Convertir la requête en minuscules pour une recherche insensible à la casse
 
-            var videoContainers = document.querySelectorAll('#videoList > div');
+            var videoContainers = document.querySelectorAll('.videoContainer');
 
             videoContainers.forEach(function(videoContainer) {
                 var videoTitle = videoContainer.querySelector('div').textContent.toLowerCase(); // Le titre de la vidéo en minuscules
