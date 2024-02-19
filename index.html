@@ -262,29 +262,30 @@
           });
 
         function createOnClickHandler(url) {
-          return function() {
-            var modalContent = document.getElementById('modal-content');
-            var oldVideoPlayer = document.getElementById('videoPlayer');
-            if (oldVideoPlayer) {
-              modalContent.removeChild(oldVideoPlayer); // Supprime l'ancienne iframe
-            }
-            var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
-            videoPlayer.id = 'videoPlayer';
-            videoPlayer.src = url;
-            videoPlayer.allowFullscreen = true;
-            modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
-            document.getElementById('modal').style.display = "block";
-          };
+            return function() {
+                var modalContent = document.getElementById('modal-content');
+                var oldVideoPlayer = document.getElementById('videoPlayer');
+                if (oldVideoPlayer) {
+                    modalContent.removeChild(oldVideoPlayer); // Supprime l'ancienne iframe
+                }
+                var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
+                videoPlayer.id = 'videoPlayer';
+                videoPlayer.src = url;
+                videoPlayer.allowFullscreen = true;
+                modalContent.innerHTML = ''; // Efface le contenu précédent
+                modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
+                document.getElementById('modal').style.display = "block";
+            };
         }
 
         // Fermer la fenêtre modale lorsque l'utilisateur clique sur (x)
         document.getElementById('close').onclick = function() {
-          var modalContent = document.getElementById('modal-content');
-          var videoPlayer = document.getElementById('videoPlayer');
-          if (videoPlayer) {
-            modalContent.removeChild(videoPlayer); // Supprime l'iframe
-          }
-          document.getElementById('modal').style.display = "none";
+            var modalContent = document.getElementById('modal-content');
+            var videoPlayer = document.getElementById('videoPlayer');
+            if (videoPlayer) {
+                modalContent.removeChild(videoPlayer); // Supprime l'iframe
+            }
+            document.getElementById('modal').style.display = "none";
         }
 
         // Barre de recherche pour filtrer les vidéos
