@@ -31,6 +31,9 @@
         #menu ul li {
             padding: 10px;
             border-bottom: 1px solid #666;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.3s ease;
         }
         #menu ul li a {
             color: #fff;
@@ -41,6 +44,10 @@
         }
         #menu.active {
             left: 0;
+        }
+        #menu.active ul li {
+            opacity: 1;
+            transform: translateX(0);
         }
         #menu-toggle {
             position: fixed;
@@ -71,8 +78,10 @@
         });
 
         links.forEach(function(link) {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
                 menu.classList.remove('active');
+                window.location.href = e.target.href;
             });
         });
     </script>
