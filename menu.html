@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2e2e2e;
+            color: #fff;
+        }
+        #menu {
+            background-color: #333;
+            width: 200px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: -200px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding-top: 60px;
+        }
+        #menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #menu ul li {
+            padding: 10px;
+            border-bottom: 1px solid #666;
+        }
+        #menu ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        #menu ul li a:hover {
+            color: #ccc;
+        }
+        #menu.active {
+            left: 0;
+        }
+        #menu-toggle {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <ul>
+            <li><a href="index.html">Vidéos</a></li>
+            <li><a href="serie.html">Séries</a></li>
+            <li><a href="info.html">Informations</a></li>
+        </ul>
+    </div>
+    <div id="menu-toggle">&#9776;</div>
+
+    <script>
+        var menuToggle = document.getElementById('menu-toggle');
+        var menu = document.getElementById('menu');
+
+        menuToggle.addEventListener('click', function() {
+            menu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
