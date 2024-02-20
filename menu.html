@@ -36,7 +36,6 @@
         #menu ul li a {
             color: #fff;
             text-decoration: none;
-            transition: color 0.3s ease;
         }
         #menu ul li a:hover {
             color: #ccc;
@@ -51,8 +50,6 @@
             top: 20px;
             cursor: pointer;
             z-index: 1001;
-            color: #fff;
-            font-size: 2em;
         }
     </style>
 </head>
@@ -72,11 +69,12 @@
         var links = document.querySelectorAll('#menu a');
 
         menuToggle.addEventListener('click', function() {
-            menu.classList.toggle('active');
             if (menu.style.display === "none") {
                 menu.style.display = "block";
+                setTimeout(function(){ menu.classList.toggle('active'); }, 50);
             } else {
-                setTimeout(function(){ menu.style.display = "none"; }, 300);
+                menu.classList.toggle('active');
+                setTimeout(function(){ menu.style.display = "none"; }, 350);
             }
         });
 
@@ -84,7 +82,7 @@
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 menu.classList.remove('active');
-                setTimeout(function(){ menu.style.display = "none"; }, 300);
+                setTimeout(function(){ menu.style.display = "none"; }, 350);
                 window.top.location.href = e.target.href;
             });
         });
