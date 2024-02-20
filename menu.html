@@ -18,7 +18,7 @@
             height: 100%;
             position: fixed;
             top: 0;
-            left: -200px;
+            left: -100%;
             transition: left 0.3s ease;
             z-index: 1000;
             padding-top: 60px;
@@ -59,14 +59,21 @@
             <li><a href="serie.html" target="_self">Séries</a></li>
         </ul>
     </div>
-    <div id="menu-toggle">&#9776;</div>
+    <div id="menu-toggle">☰</div>
 
     <script>
         var menuToggle = document.getElementById('menu-toggle');
         var menu = document.getElementById('menu');
+        var links = document.querySelectorAll('#menu a');
 
         menuToggle.addEventListener('click', function() {
             menu.classList.toggle('active');
+        });
+
+        links.forEach(function(link) {
+            link.addEventListener('click', function() {
+                menu.classList.remove('active');
+            });
         });
     </script>
 </body>
