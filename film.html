@@ -109,6 +109,44 @@
             pointer-events: none; /* Empêche le canvas d'interférer avec les interactions de la souris sur les autres éléments */
             z-index: -1; /* Assure que le canvas est positionné en arrière-plan */
         }
+        /* Styles pour le menu latéral */
+        #menu {
+            background-color: #333;
+            width: 200px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: -200px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding-top: 60px;
+        }
+        #menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #menu ul li {
+            padding: 10px;
+            border-bottom: 1px solid #666;
+        }
+        #menu ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        #menu ul li a:hover {
+            color: #ccc;
+        }
+        #menu.active {
+            left: 0;
+        }
+        #menu-toggle {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            cursor: pointer;
+            z-index: 1001;
+        }
     </style>
 </head>
 <body>
@@ -132,7 +170,46 @@
         </div>
     </div>
 
+    <!-- Chargement du menu latéral -->
+    <div id="menu">
+        <!-- Le contenu du menu sera chargé ici -->
+    </div>
+    <div id="menu-toggle">☰</div>
+
     <script>
+        var menuToggle = document.getElementById('menu-toggle');
+        var menu = document.getElementById('menu');
+
+        // Chargement du contenu du menu depuis menu.html
+        fetch('menu.html')
+            .then(response => response.text())
+            .then(data => {
+                menu.innerHTML = data;
+                var links = menu.querySelectorAll('a');
+
+                links.forEach(function(link) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        menu.classList.remove('active');
+                        window.top.location.href = e.target.href;
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Une erreur s\'est produite lors du chargement du menu:', error);
+            });
+
+        menuToggle.addEventListener('click', function() {
+            menu.classList.toggle('active');
+        });
+
+        // Ferme le menu lorsque l'utilisateur clique en dehors du menu
+        document.addEventListener('click', function(e) {
+            if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
         var videosPerPage = 14; // Nombre de vidéos par page
         var currentPage = 1; // Page actuelle
         var videosData = []; // Contiendra toutes les vidéos
@@ -219,6 +296,7 @@
                 ctx.arc(star.x, star.y, 2, 0, Math.PI * 2);
                 ctx.fillStyle = "#ffffff";
                 ctx.fill();
+
                 for(var j = i + 1; j < numStars; j++) {
                     var otherStar = stars[j];
                     var dx = otherStar.x - star.x;
