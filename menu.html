@@ -22,6 +22,7 @@
             transition: left 0.3s ease;
             z-index: 1000;
             padding-top: 60px;
+            overflow: hidden; /* Masquer le contenu qui dépasse */
         }
         #menu ul {
             list-style: none;
@@ -54,8 +55,8 @@
 <body>
     <div id="menu">
         <ul>
-            <li><a href="index.html">Informations</a></li>
-            <li><a href="film.html">Films</a></li>
+            <li><a href="info.html">Informations</a></li>
+            <li><a href="film.html">Vidéos</a></li>
             <li><a href="serie.html">Séries</a></li>
         </ul>
     </div>
@@ -64,9 +65,16 @@
     <script>
         var menuToggle = document.getElementById('menu-toggle');
         var menu = document.getElementById('menu');
+        var menuLinks = document.querySelectorAll('#menu ul li a');
 
         menuToggle.addEventListener('click', function() {
             menu.classList.toggle('active');
+        });
+
+        menuLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                menu.classList.remove('active'); // Ferme la barre latérale après avoir cliqué sur un lien
+            });
         });
     </script>
 </body>
