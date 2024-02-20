@@ -121,8 +121,8 @@
     <div id="videoContainer">
         <div id="videoList"></div>
         <div id="pagination">
-            <span id="prevPage" class="paginationBtn">< Précédent</span>
-            <span id="nextPage" class="paginationBtn">Suivant ></span>
+            <span id="prevPage" class="paginationBtn">&lt; Précédent</span>
+            <span id="nextPage" class="paginationBtn">Suivant &gt;</span>
         </div>
     </div>
     <div id="modal">
@@ -132,48 +132,14 @@
         </div>
     </div>
 
-    <!-- Chargement du menu latéral -->
-    <div id="menu">
-        <!-- Le contenu du menu sera chargé ici -->
-    </div>
-    <div id="menu-toggle">☰</div>
-
     <script>
-        var menuToggle = document.getElementById('menu-toggle');
-        var menu = document.getElementById('menu');
+        var videosPerPage = 14; // Nombre de vidéos par page
+        var currentPage = 1; // Page actuelle
+        var videosData = []; // Contiendra toutes les vidéos
+        var filteredVideos = []; // Contiendra les vidéos filtrées
 
-        // Chargement du contenu du menu depuis menu.html
-        fetch('menu.html')
-            .then(response => response.text())
-            .then(data => {
-                menu.innerHTML = data;
-                var links = menu.querySelectorAll('a');
-
-                links.forEach(function(link) {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        menu.classList.remove('active');
-                        window.top.location.href = e.target.href;
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('Une erreur s\'est produite lors du chargement du menu:', error);
-            });
-
-        menuToggle.addEventListener('click', function() {
-            menu.classList.toggle('active');
-        });
-
-        // Ferme le menu lorsque l'utilisateur clique en dehors du menu
-        document.addEventListener('click', function(e) {
-            if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
-                menu.classList.remove('active');
-            }
-        });
-
-       // Fonction pour afficher les vidéos sur une page donnée
-       function displayVideos(page) {
+        // Fonction pour afficher les vidéos sur une page donnée
+        function displayVideos(page) {
             var startIndex = (page - 1) * videosPerPage;
             var endIndex = startIndex + videosPerPage;
             var videosToDisplay = filteredVideos.slice(startIndex, endIndex);
@@ -253,7 +219,6 @@
                 ctx.arc(star.x, star.y, 2, 0, Math.PI * 2);
                 ctx.fillStyle = "#ffffff";
                 ctx.fill();
-
                 for(var j = i + 1; j < numStars; j++) {
                     var otherStar = stars[j];
                     var dx = otherStar.x - star.x;
