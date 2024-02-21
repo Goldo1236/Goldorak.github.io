@@ -13,8 +13,23 @@
             color: #fff;
         }
         #content {
-            margin-left: 220px; /* Pour tenir compte de la largeur du menu */
+            text-align: center;
+            margin-top: 100px;
             padding: 20px;
+        }
+        #content h1 {
+            font-size: 36px;
+        }
+        #content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        #content a {
+            color: #fff;
+            text-decoration: underline;
+        }
+        #content a:hover {
+            color: #ccc;
         }
         #menu {
             background-color: #333;
@@ -67,43 +82,11 @@
         <h1>Bienvenue sur notre site de streaming</h1>
         <p>Découvrez ici les derniers films et les classiques.</p>
         <p>2024 Informations. Tous droits réservés.</p>
+        <p>Pour éviter les publicités, nous vous recommandons de télécharger l'extension <a href="https://ublockorigin.com/" target="_blank">uBlock Origin</a>.</p>
     </div>
 
+    <!-- Script de fond de constellations -->
     <script>
-        var menuToggle = document.getElementById('menu-toggle');
-        var menu = document.getElementById('menu');
-
-        // Chargement du contenu du menu depuis menu.html
-        fetch('menu.html')
-            .then(response => response.text())
-            .then(data => {
-                menu.innerHTML = data;
-                var links = menu.querySelectorAll('a');
-
-                links.forEach(function(link) {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        menu.classList.remove('active');
-                        window.top.location.href = e.target.href;
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('Une erreur s\'est produite lors du chargement du menu:', error);
-            });
-
-        menuToggle.addEventListener('click', function() {
-            menu.classList.toggle('active');
-        });
-
-        // Ferme le menu lorsque l'utilisateur clique en dehors du menu
-        document.addEventListener('click', function(e) {
-            if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
-                menu.classList.remove('active');
-            }
-        });
-
-        // Script de fond de constellations
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
         var stars = [];
@@ -181,6 +164,41 @@
         document.addEventListener('mousemove', function(e) {
             mousePos.x = e.clientX;
             mousePos.y = e.clientY;
+        });
+    </script>
+
+    <script>
+        var menuToggle = document.getElementById('menu-toggle');
+        var menu = document.getElementById('menu');
+
+        // Chargement du contenu du menu depuis menu.html
+        fetch('menu.html')
+            .then(response => response.text())
+            .then(data => {
+                menu.innerHTML = data;
+                var links = menu.querySelectorAll('a');
+
+                links.forEach(function(link) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        menu.classList.remove('active');
+                        window.top.location.href = e.target.href;
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Une erreur s\'est produite lors du chargement du menu:', error);
+            });
+
+        menuToggle.addEventListener('click', function() {
+            menu.classList.toggle('active');
+        });
+
+        // Ferme le menu lorsque l'utilisateur clique en dehors du menu
+        document.addEventListener('click', function(e) {
+            if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+                menu.classList.remove('active');
+            }
         });
     </script>
 </body>
