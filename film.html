@@ -345,20 +345,26 @@
           });
 
         function createOnClickHandler(url) {
-          return function() {
-            var modalContent = document.getElementById('modal-content');
-            var oldVideoPlayer = document.getElementById('videoPlayer');
-            if (oldVideoPlayer) {
-              modalContent.removeChild(oldVideoPlayer); // Supprime l'ancienne iframe
-            }
-            var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
-            videoPlayer.id = 'videoPlayer';
-            videoPlayer.src = url;
-            videoPlayer.allowFullscreen = true;
-            modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
-            document.getElementById('modal').style.display = "block";
-          };
-        }
+        return function() {
+        var modalContent = document.getElementById('modal-content');
+        var oldVideoPlayer = document.getElementById('videoPlayer');
+        if (oldVideoPlayer) {
+        modalContent.removeChild(oldVideoPlayer); // Supprime l'ancienne iframe
+       }
+    var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
+    videoPlayer.id = 'videoPlayer';
+    videoPlayer.src = url;
+    videoPlayer.allowFullscreen = true;
+
+    // Appliquer des styles pour définir la taille de l'iframe
+    videoPlayer.style.width = '80%'; // Largeur de 80% de la fenêtre modale
+    videoPlayer.style.height = '80%'; // Hauteur de 80% de la fenêtre modale
+
+    modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
+    document.getElementById('modal').style.display = "block";
+  };
+}
+
 
         // Fermer la fenêtre modale lorsque l'utilisateur clique sur (x)
         document.getElementById('close').onclick = function() {
