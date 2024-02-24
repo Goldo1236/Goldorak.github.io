@@ -10,35 +10,146 @@
             color: #fff;
             user-select: none; /* Désactiver la sélection de texte */
         }
-        /* Styles pour le reste de votre CSS vont ici */
-
-        /* Styles pour la bannière */
-        #banner {
+        #header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        #videoContainer {
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 0 20px;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
             overflow: hidden;
-            width: 100%;
-            background-color: #333;
         }
-
-        #banner-container {
-            white-space: nowrap;
-            animation: marquee 20s linear infinite;
-        }
-
-        .banner-item {
-            width: 200px; /* Ajustez la largeur des images selon vos besoins */
-            height: auto;
-            margin-right: 20px; /* Espace entre les images */
+        .videoContainer {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.2s;
+            text-align: center; /* Centrer le texte */
+            position: relative; /* Ajout d'une position relative */
         }
-
-        .banner-item:hover {
-            transform: scale(1.1);
+        .videoContainer:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
+        .videoTitle {
+            position: relative;
+            z-index: 1;
+        }
+        .videoOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #searchInput {
+            margin: 20px auto;
+            display: block;
+            padding: 10px;
+            width: 80%;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-align: center; /* Centrer le texte */
+        }
+        #pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .paginationBtn {
+            display: inline-block;
+            margin: 0 5px;
+            cursor: pointer;
+            color: #fff;
+        }
+        #modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        #modal-content {
+        background-color: #000000;
+        margin: 10% auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 40%; /* Réduire la largeur du modal à 50% */
+        height: 50%; /* Augmenter la hauteur du modal à 60% */
+        max-height: 70vh; /* Limiter la hauteur maximale à 70% de la hauteur de la fenêtre */
+        border-radius: 10px;
+        box-shadow: 10px 10px 5px grey;
+        overflow: hidden;
+        position: relative;
+    }
 
-        @keyframes marquee {
-            0%   { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+
+#videoPlayer {
+    width: 100%; /* La vidéo prend toute la largeur du conteneur modal */
+    height: calc(100% - 40px); /* Hauteur ajustée en fonction du conteneur modal */
+}
+
+        #close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Empêche le canvas d'interférer avec les interactions de la souris sur les autres éléments */
+            z-index: -1; /* Assure que le canvas est positionné en arrière-plan */
+        }
+        /* Styles pour le menu latéral */
+        #menu {
+            background-color: #333;
+            width: 200px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: -200px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding-top: 60px;
+        }
+        #menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #menu ul li {
+            padding: 10px;
+            border-bottom: 1px solid #666;
+        }
+        #menu ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        #menu ul li a:hover {
+            color: #ccc;
+        }
+        #menu.active {
+            left: 0;
+        }
+        #menu-toggle {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            cursor: pointer;
+            z-index: 1001;
         }
     </style>
 </head>
@@ -48,18 +159,6 @@
         <!-- Mettez ici votre image -->
         <h1>Goldorak</h1>
     </div>
-
-    <!-- Ajout de la bannière de films -->
-    <div id="banner">
-        <div id="banner-container">
-            <img class="banner-item" src="lien_image_film_1" data-url="lien_video_film_1">
-            <img class="banner-item" src="lien_image_film_2" data-url="lien_video_film_2">
-            <!-- Ajoutez d'autres images de films ici -->
-        </div>
-    </div>
-
-    <!-- Reste de votre code HTML -->
-
     <input type="text" id="searchInput" placeholder="Rechercher..." autocomplete="off">
     <div id="videoContainer">
         <div id="videoList"></div>
@@ -286,29 +385,6 @@
             currentPage = 1; // Réinitialise la page actuelle à 1 après la recherche
             displayVideos(currentPage);
         });
-
-        // Gestion des clics sur les images de la bannière
-        document.querySelectorAll('.banner-item').forEach(item => {
-            item.addEventListener('click', function() {
-                var url = this.getAttribute('data-url');
-                openVideo(url);
-            });
-        });
-
-        // Fonction pour ouvrir une vidéo dans la fenêtre modale
-        function openVideo(url) {
-            var modalContent = document.getElementById('modal-content');
-            var oldVideoPlayer = document.getElementById('videoPlayer');
-            if (oldVideoPlayer) {
-                modalContent.removeChild(oldVideoPlayer); // Supprime l'ancienne iframe
-            }
-            var videoPlayer = document.createElement('iframe'); // Crée une nouvelle iframe
-            videoPlayer.id = 'videoPlayer';
-            videoPlayer.src = url;
-            videoPlayer.allowFullscreen = true;
-            modalContent.appendChild(videoPlayer); // Ajoute l'iframe à la fenêtre modale
-            document.getElementById('modal').style.display = "block";
-        }
     </script>
 </body>
 </html>
